@@ -1,0 +1,50 @@
+services:
+  web:
+    build: .
+    container_name: yii2-web
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./php-fpm/www.conf:/etc/php/8.3/fpm/pool.d/www.conf:ro
+      - ./nginx/default.conf:/etc/nginx/sites-enabled/default:ro
+    networks:
+      - local-web
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter-app
+    ports:
+      - "9100:9100"
+    restart: unless-stopped
+    networks:
+      - local-web
+
+  # db:
+  #   image: postgres:15
+  #   container_name: yii2-db
+  #   restart: always
+  #   environment:
+  #     POSTGRES_DB: yii2db
+  #     POSTGRES_USER: yiiuser
+  #     POSTGRES_PASSWORD: yiipass
+  #   volumes:
+  #     - ./pgdata:/var/lib/postgresql
+  #   networks:
+  #     - local-web
+
+  # proxy:
+  #   image: nginx:latest
+  #   container_name: yii2-proxy
+  #   restart: always
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - web
+  #   volumes:
+  #     - ./proxy/default.conf:/etc/nginx/conf.d/default.conf:ro
+  #   networks:
+  #     - local-web
+
+networks:
+  local-web:
+    driver: bridge

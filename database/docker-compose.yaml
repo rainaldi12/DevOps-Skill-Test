@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:15
+    container_name: yii2-db
+    restart: always
+    environment:
+      POSTGRES_DB: yii2db
+      POSTGRES_USER: yiiuser
+      POSTGRES_PASSWORD: yiipass
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql
+    networks:
+      - local-db
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter-db
+    ports:
+      - "9101:9100"
+    restart: unless-stopped
+    networks:
+      - local-db
+
+networks:
+  local-db:
+    driver: bridge
