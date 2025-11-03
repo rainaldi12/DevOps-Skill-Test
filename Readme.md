@@ -1,7 +1,5 @@
 
 ---
-
-````markdown
 # 🧩 SkillTest DevOps — All Docker Containers
 
 This repository provides a complete **DevOps environment** for a PHP **Yii2 web application**, **PostgreSQL database**, **Nginx reverse proxy**, and a **Monitoring stack** using **Prometheus** and **Grafana**.  
